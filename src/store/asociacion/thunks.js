@@ -1,5 +1,5 @@
 import Swal from "sweetalert2"
-import { setAsociacion, setCantones, setClubes, setPaises, setParroquias, setProvincias } from "./asociacionSlice"
+import { addClub, eliminaClub, setAsociacion, setCantones, setClub, setClubes, setPaises, setParroquias, setProvincias } from "./asociacionSlice"
 import axios from "axios"
 
 export const startLoadingAso = () => {
@@ -122,6 +122,43 @@ export const updatePasswordAso = ({idAsociacion,password }) => {
         }
     }
 }
+export const deleteClub = ({idClub}) => {
+    return async (dispatch, getState) => {
+        
+        const token = localStorage.getItem('token')
+        if (!token) {
+            return
+        }
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        
+        try {
+
+            
+            const { data } = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/asociacion/usuarios-club/${idClub}`, config)
+            
+            
+
+            dispatch(eliminaClub({idClub}))
+            
+                    
+
+    } catch (error) {
+        console.log(error);
+        Swal.fire({
+            title: error.response.data.message,
+            //text: "That thing is still around?",
+            icon: "warning"
+            
+        });
+    }
+}
+}
+
 export const startLoadingClubes = () => {
 
     return async (dispatch, getState) => {
@@ -163,6 +200,93 @@ export const startLoadingClubes = () => {
             // icon: "warning"
             
             // });
+        }
+    }
+}
+export const startLoadingClub = ({idClub}) => {
+
+    return async (dispatch, getState) => {
+
+
+        const token = localStorage.getItem('token')
+
+        if (!token) {
+            return
+        }
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        
+        try {
+            //console.log(idClub);
+            const { data } = await axios(`${import.meta.env.VITE_BACKEND_URL}/api/asociacion/usuarios-club/${idClub}`, config)
+            console.log(data);
+
+           
+            const club = data;
+            //club.push({ id: data.idClub});
+
+            // data.forEach(dato => {
+            //     clubes.push({ id: dato.idClub, ...dato });
+            // })
+            
+            dispatch(setClub(club))
+            
+
+
+        } catch (error) {
+            console.log(error);
+            // Swal.fire({
+            // title: error.response.data.message,
+            // //text: "That thing is still around?",
+            // icon: "warning"
+            
+            // });
+        }
+    }
+}
+export const startCrateClubes = ({club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion}) => {
+
+    return async (dispatch, getState) => {
+
+
+        const token = localStorage.getItem('token')
+
+        if (!token) {
+            return
+        }
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        }
+        
+        try {
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/asociacion/usuarios-club`,{club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion}, config)
+            dispatch(addClub({id:data.idClub,club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion}))
+            //console.log(data);
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: 'Club creado con exito',
+                showConfirmButton: false,
+                timer: 4500
+            });
+
+
+
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+            title: error.response.data.message,
+            //text: "That thing is still around?",
+            icon: "warning"
+            
+            });
         }
     }
 }

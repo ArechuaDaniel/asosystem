@@ -19,6 +19,7 @@ import VerAlumno from './auth/VerAlumno'
 import EditarAsociacion from './auth/EditarAsociacion'
 import MostrarClubes from './auth/MostrarClubes'
 import CrearClub from './auth/CrearClub'
+import VerClub from './auth/VerClub'
 
 function App() {
 
@@ -44,7 +45,7 @@ function App() {
             <Route path='home' element={<Side />} />
             <Route path='editar-asociacion' element={<EditarAsociacion />} />
             <Route path='crear-club' element={<CrearClub />} />
-            <Route path='editar-club' element={<EditarClub />} />
+            <Route path='ver-club/:id' element={<VerClub />} />
             <Route path='clubes' element={<MostrarClubes />} />
             <Route path='crear-instructor' element={<CrearInstructor />} />
             <Route path='instructores' element={<MostrarInstructores />} />

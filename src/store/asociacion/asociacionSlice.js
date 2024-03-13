@@ -56,6 +56,22 @@ export const asociacionSlice = createSlice({
             state.club = action.payload
 
         },
+        addClub: (state, {payload}) => {
+            state.clubes.push(payload)
+        },
+        eliminaClub: (state, {payload}) => {
+            
+            const clubes = payload
+            const {idClub} = clubes
+            
+            //console.log(horarios);
+            const foundClub = state.clubes.find(club => club.idClub === clubes.idClub)
+            
+            if (foundClub) {
+                state.clubes.splice(state.clubes.indexOf(foundClub),1);
+                //console.log(foundHorario);
+            }
+        },
         setInstructores: (state, action) => {
             
             state.instructores = action.payload
@@ -95,4 +111,4 @@ export const asociacionSlice = createSlice({
     }
 });
 // Action creators are generated for each case reducer function
-export const {setPaises,setProvincias,setCantones,setParroquias,setAsociacion,setAlumnos,setAlumno, setInstructores,setInstructor,addInstructor, setClubes,setClub, eliminaInstructor  } = asociacionSlice.actions;       
+export const {setPaises,setProvincias,setCantones,setParroquias,setAsociacion,setAlumnos,setAlumno, setInstructores,setInstructor,addInstructor, setClubes,setClub, addClub,eliminaClub,eliminaInstructor  } = asociacionSlice.actions;       

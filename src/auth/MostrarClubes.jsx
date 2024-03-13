@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { formatearFecha } from "../helpers/formatearFecha";
 import Swal from "sweetalert2";
 import { deleteInstructor} from "../store/instructor/thunks";
-import { startLoadingClubes } from "../store/asociacion/thunks";
+import { deleteClub, startLoadingClubes } from "../store/asociacion/thunks";
 
 
 
@@ -34,7 +34,7 @@ const MostrarClubes = () => {
             useEffect(() => {
                 dispatch(startLoadingClubes())
             }, [])
-            const eliminar = (cedulaInstructor) => {
+            const eliminar = (idClub) => {
                 //console.log(idHorario);
                 Swal.fire({
                     title: "¿Estas seguro de eliminar el Club?",
@@ -54,7 +54,7 @@ const MostrarClubes = () => {
                             
                         });
         
-                        dispatch(deleteInstructor({cedulaInstructor}))
+                        dispatch(deleteClub({idClub}))
                         
                     }
                 });
@@ -139,7 +139,7 @@ const MostrarClubes = () => {
                                                     <td className='  text-left p-3 capitalize'>{club.telefono}</td>
                                                     <td className='  text-left p-3 capitalize'>{club.direccion}</td>
         
-                                                    <td className='  text-left p-3 flex'><Link to={`/asosystem/api/editar-club/${club.idClub}`}
+                                                    <td className='  text-left p-3 flex'><Link to={`/asosystem/api/ver-club/${club.idClub}`}
                                                         className="bg-sky-600 p-2 rounded-xl text-white uppercase font-bold hover:bg-sky-700 text-center mr-2 "><span className="material-symbols-outlined text-center align-middle ">
                                                             preview
                                                         </span></Link>

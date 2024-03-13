@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatearFecha } from "../helpers/formatearFecha";
 import Swal from "sweetalert2";
-import { startLoadingCantones, startLoadingClubes, startLoadingPaises, startLoadingParroquias, startLoadingProvincias } from "../store/asociacion/thunks";
+import { startCrateClubes, startLoadingCantones, startLoadingClubes, startLoadingPaises, startLoadingParroquias, startLoadingProvincias } from "../store/asociacion/thunks";
 
 
 const CrearClub = () => {
@@ -24,17 +24,12 @@ const CrearClub = () => {
             const [idCanton, setIdCanton] = useState('');
         
             const dispatch = useDispatch();
-            const {clubes, paises, provincias, cantones, parroquias} = useSelector(state => state.asociacion)
+            const {paises, provincias, cantones, parroquias} = useSelector(state => state.asociacion)
             const navigate = useNavigate();
             
         
             const fechaActual = new Date();
-            
-            //const cedulaInstructor = instructor.cedulaInstructor;
-         
-            
-            //const navigate = Navigate();
-            //console.log(idClub);
+   
             useEffect(() => {
               
                 dispatch(startLoadingClubes())
@@ -72,7 +67,7 @@ const CrearClub = () => {
             
             
             
-            // console.log(cedula,primerApellido,segundoApellido,primerNombre,segundoNombre,fechaNacimiento,direccion,fechaRegistro,telefono,idClub,correo, genero);
+             console.log(club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion);
             const regresar = (e) => {
                 e.preventDefault()
                 Swal.fire({
@@ -87,12 +82,12 @@ const CrearClub = () => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
-                            title: "Ha regresado al perfil!",
+                            title: "Ha regresado a Clubes",
                             //text: "Your file has been deleted.",
                             icon: "success"
                         });
         
-                        navigate('/asosystem/api/perfil')
+                        navigate('/asosystem/api/clubes')
         
                     }
                 });
@@ -102,7 +97,7 @@ const CrearClub = () => {
                 e.preventDefault();
         
         
-                if ([clubs, director, fechaAfiliacion, telefono, correo, idParroquia, direccion].includes('')) {
+                if ([club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion].includes('')) {
                     Swal.fire({
                         title: "Todos los campos son obligatorios",
                         //text: "That thing is still around?",
@@ -114,8 +109,8 @@ const CrearClub = () => {
                 
                 try {
         
-                   dispatch(updateClub({clubs, director, fechaAfiliacion, telefono, correo, idParroquia, direccion, idClub}))
-                   navigate('/asosystem/api/perfil') 
+                   dispatch(startCrateClubes({club, director, fechaAfiliacion, telefono, password, correo,  idParroquia, direccion}))
+                   navigate('/asosystem/api/clubes') 
                 } catch (error) {
                     console.log(error);
                     // setAlerta({
@@ -140,7 +135,7 @@ const CrearClub = () => {
                             <div className='rounded-xl bg-white '>
                                 <h1 className='text-sky-600 font-black md:text-3xl text-2xl px-10 mt-10'>
                                     <span className="material-symbols-outlined align-middle text-3xl mr-2">
-                                        person
+                                        sports_gymnastics
                                     </span>Registrar datos del Club  </h1>
         
         
